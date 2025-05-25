@@ -1,0 +1,46 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# PyInstaller build folders
+build/
+dist/
+*.spec
+
+# Logs and temp files
+*.log
+*.tmp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+
+# Compiled binaries or temporary artifacts
+*.so
+*.dll
+*.exe
+*.app
+
+# Kivy build artifacts (if using buildozer or packaging)
+.kivy/
+.kv__*.py
+
+# Output images
+*.png
+*.jpg
+*.jpeg
+
+# Your VTF binary (if included in repo structure)
+libs/vtf2png/vtf2png
+libs/vtf2png/vtf2png.exe
