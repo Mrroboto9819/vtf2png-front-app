@@ -1,7 +1,6 @@
 from pathlib import Path
 import subprocess
 import threading
-import os
 
 from kivy.app import App
 from kivy.clock import Clock
@@ -68,12 +67,12 @@ class VTFConverter(BoxLayout):
         FolderChooser(self.set_output_dir, title="Select PNG Output Folder").open()
 
     def set_input_dir(self, path):
-        self.input_dir = str(Path(path).resolve())
-        self.input_label.text = f"Input folder: {self.input_dir}"
+        self.input_dir = path
+        self.input_label.text = f"Input folder: {path}"
 
     def set_output_dir(self, path):
-        self.output_dir = str(Path(path).resolve())
-        self.output_label.text = f"Output folder: {self.output_dir}"
+        self.output_dir = path
+        self.output_label.text = f"Output folder: {path}"
 
     def start_conversion(self, instance):
         if not self.input_dir or not self.output_dir:
@@ -84,15 +83,10 @@ class VTFConverter(BoxLayout):
         thread.start()
 
     def convert_files(self):
-        binary_name = "vtf2png.exe" if os.name == "nt" else "vtf2png"
-        vtf2png = Path(__file__).resolve().parent / "libs/vtf2png" / binary_name
-
+        vtf2png = Path(__file__).resolve().parent / "libs/vtf2png/vtf2png"
         if not vtf2png.is_file():
             Clock.schedule_once(lambda dt: self.show_popup("vtf2png binary not found."))
             return
-
-        if os.name != "nt":
-            vtf2png.chmod(vtf2png.stat().st_mode | 0o111)
 
         input_dir = Path(self.input_dir)
         output_dir = Path(self.output_dir)
@@ -103,6 +97,7 @@ class VTFConverter(BoxLayout):
             return
 
         output_dir.mkdir(parents=True, exist_ok=True)
+
         Clock.schedule_once(lambda dt: self.set_progress_max(len(vtf_files)))
 
         for i, vtf_file in enumerate(vtf_files, start=1):

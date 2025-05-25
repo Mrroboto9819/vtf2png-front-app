@@ -8,3 +8,4 @@ Kivy-Garden==0.1.5
 Pygments==2.19.1
 requests==2.32.3
 urllib3==2.4.0
+pywin32
