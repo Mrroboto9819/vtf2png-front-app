@@ -1,6 +1,7 @@
 from pathlib import Path
 import subprocess
 import threading
+import os
 
 from kivy.app import App
 from kivy.clock import Clock
@@ -83,10 +84,15 @@ class VTFConverter(BoxLayout):
         thread.start()
 
     def convert_files(self):
-        vtf2png = Path(__file__).resolve().parent / "libs/vtf2png/vtf2png"
+        binary_name = "vtf2png.exe" if os.name == "nt" else "vtf2png"
+        vtf2png = Path(__file__).resolve().parent / "libs/vtf2png" / binary_name
+
         if not vtf2png.is_file():
             Clock.schedule_once(lambda dt: self.show_popup("vtf2png binary not found."))
             return
+
+        if os.name != "nt":
+            vtf2png.chmod(vtf2png.stat().st_mode | 0o111)
 
         input_dir = Path(self.input_dir)
         output_dir = Path(self.output_dir)
@@ -97,7 +103,6 @@ class VTFConverter(BoxLayout):
             return
 
         output_dir.mkdir(parents=True, exist_ok=True)
-
         Clock.schedule_once(lambda dt: self.set_progress_max(len(vtf_files)))
 
         for i, vtf_file in enumerate(vtf_files, start=1):
