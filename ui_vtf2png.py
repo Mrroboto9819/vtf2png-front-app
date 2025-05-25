@@ -68,12 +68,12 @@ class VTFConverter(BoxLayout):
         FolderChooser(self.set_output_dir, title="Select PNG Output Folder").open()
 
     def set_input_dir(self, path):
-        self.input_dir = path
-        self.input_label.text = f"Input folder: {path}"
+        self.input_dir = str(Path(path).resolve())
+        self.input_label.text = f"Input folder: {self.input_dir}"
 
     def set_output_dir(self, path):
-        self.output_dir = path
-        self.output_label.text = f"Output folder: {path}"
+        self.output_dir = str(Path(path).resolve())
+        self.output_label.text = f"Output folder: {self.output_dir}"
 
     def start_conversion(self, instance):
         if not self.input_dir or not self.output_dir:
