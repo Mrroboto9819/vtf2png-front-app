@@ -41,6 +41,3 @@ Thumbs.db
 *.jpg
 *.jpeg
 
-# Your VTF binary (if included in repo structure)
-libs/vtf2png/vtf2png
-libs/vtf2png/vtf2png.exe
